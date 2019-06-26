@@ -31,6 +31,7 @@ class App extends Component {
     this.setState({isLoading: true})
     this.comments = database.ref('comments')
     this.comments.on('value', snapshot => {
+      
       this.setState({comments: snapshot.val(),
       isLoading: false})
     })

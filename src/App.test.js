@@ -60,6 +60,7 @@ describe('<App>', () => {
 
     //  não recebeu comments
     expect(wrapper.find(Comments).length).toBe(1)
+    // console.log('aqui =>', wrapper.text(Comments))
     expect(wrapper.find(NewComment).length).toBe(1)
     expect(wrapper.find('p').length).toBe(1)
 
@@ -77,7 +78,7 @@ describe('<App>', () => {
 
     wrapper.update()
     // TEST
-    // console.log(wrapper.state()) #retonar os objetos que inserir em comments
+    // console.log(wrapper.state()) //retonar os objetos que inserir em comments
     // console.log(wrapper.state().isLoading) return false
     expect(wrapper.state().isLoading).toBeFalsy()
     expect(wrapper.state().comments).toBe(comments)

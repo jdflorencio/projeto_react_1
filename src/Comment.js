@@ -14,12 +14,14 @@ const Comment = ({c}) => {
   }
 
   return(
-    <div>
-    <br />  
-    <strong>Comentario:</strong> {comment} <br />
-     <label style={{color: '#088da5'}}> eviado por {email}</label>
-      <br />
-      
+    <div className="card mt-2">
+      <div className="card-header">
+        Enviado por: {email}
+      </div>
+      <div className="card-body">
+        {comment} <br />
+        <label style={{color: '#088da5'}}> eviado por {email}</label>
+      </div>      
     </div>
   )
 }

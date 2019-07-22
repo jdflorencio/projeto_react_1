@@ -22,17 +22,21 @@ class Login extends Component {
 		  }
 		return(
 			<div>
-				<h4>Login</h4>
-				{
-					this.props.isAuthError && <p style={{color: 'red'}}> falhou :( {errorMessages[this.props.authError]}</p>
-				}
-	
-				<input type='text' onChange={this.handleChange('email')} placeholder='Email'/>
-				<input type='password' onChange={this.handleChange('passwd')} placeholder='passwd'/>
-				<button type='button' onClick={this.login}>Entrar</button>
-				<button onClick={() => this.props.changeScreen('signup')} >Criar Conta</button>
-
-			</div>				
+			<h4>Entre para comentar: </h4>
+			{
+				this.props.isAuthError && <div className="card text-white bg-danger mb-3">
+				 		<div className="card-body">
+							<h3>falhou :( {errorMessages[this.props.authError]}</h3>
+						</div>
+					</div>
+			}
+				<form className="form-inline">					
+					<input className="form-control mr-2" type='text' onChange={this.handleChange('email')} placeholder='Email'/>
+					<input className="form-control mr-2" type='password' onChange={this.handleChange('passwd')} placeholder='passwd'/>
+					<button className="btn btn-primary mr-2 " type='button' onClick={this.login}>Entrar</button>
+					<button className="btn  mr-2"onClick={() => this.props.changeScreen('signup')} >Criar Conta</button>
+				</form>		
+			</div>		
 		)
 	}
 }

@@ -3,6 +3,7 @@ import NewComment from './NewComment'
 import Commnents from './Comments'
 import Login from './Login'
 import User from './User'
+import SignUp from './SignUp'
 
 class App extends Component {
   
@@ -12,7 +13,10 @@ class App extends Component {
     isAuth: false, 
     isAuthError: false,
     authError: '',
-    user: {}
+    isSignUpError: false,
+    signUpError: '',
+    user: {},
+    userScreen: 'login' // signup
   }
 
   sendComment = comment => {
@@ -32,6 +36,7 @@ class App extends Component {
     //   comments: [...this.state.comments, comment],
     // })    
   }
+
   login = async(email, passwd) => {
     const { auth } = this.props
     this.setState({
@@ -47,6 +52,25 @@ class App extends Component {
       })
     } 
   }
+
+  createAccount = async(email, passwd) => {
+    console.log('passando aqui: ', email)
+    const { auth } = this.props
+    this.setState({
+      signUpError: '',
+      isSignUpError: false
+    })
+    try{
+      await auth.createUserWithEmailAndPassword(email, passwd)
+    }catch(err){
+      this.setState({
+        signUpError: err.code,
+        isSignUpError: true
+      })
+    } 
+  }
+
+
 
   componentDidMount(){
     const { database, auth } = this.props
@@ -79,11 +103,30 @@ class App extends Component {
     auth.signOut()
   }
 
+  changeScreen = (screen) => {
+    this.setState({
+      userScreen: screen
+    })
+  }
+
+
   render () {
-    return (
+    const errorMessages = {
+      "auth/invalid-email": "E-mail inválido",
+      "auth/user-not-found": "usuario não encontrado",
+      "auth/wrong-password": "Senha invalida"
+
+    }
+      return (
       <div>
       {this.state.isAuth && <User email={this.state.user.email} logout={this.logout}/>} 
-      {!this.state.isAuth && <Login login={this.login} />}
+      {!this.state.isAuth 
+          && this.state.userScreen === 'login' &&
+        <Login login={this.login} isAuthError={this.state.isAuthError} authError={this.state.authError} changeScreen={this.changeScreen}/>}
+        {!this.state.isAuth 
+          && this.state.userScreen === 'signup' &&
+        <SignUp createAccount={this.createAccount} isSignUpError={this.state.isSignUpError} signUpError={this.state.signUpError} changeScreen={this.changeScreen}/>}
+
         { this.state.isAuth &&  <NewComment sendComment={this.sendComment} /> }
        
         <Commnents comments={this.state.comments}/>
